@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tb_product")
@@ -34,7 +36,12 @@ public class Product implements Serializable {
 	/* Set garante que só vai existir uma categoria de cada tipo
 	 * Set é uma interface e não pode ser instanciado, uma implementação
 	 * possível é o HashSet*/
-	@Transient
+	@ManyToMany
+	@JoinTable(name = "tb_product_category",
+	joinColumns = @JoinColumn(name = "product_id"),
+	/*Chave estrangeira correspondente a categoria*/
+	inverseJoinColumns = @JoinColumn(name = "category_id")
+	)
 	private Set<Category> categories = new HashSet<>();  
 	
 	public Product() {
