@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import com.rsrj.coursewebservices.entities.Category;
 import com.rsrj.coursewebservices.entities.Order;
 import com.rsrj.coursewebservices.entities.OrderItem;
+import com.rsrj.coursewebservices.entities.Payment;
 import com.rsrj.coursewebservices.entities.Product;
 import com.rsrj.coursewebservices.entities.User;
 import com.rsrj.coursewebservices.entities.enums.OrderStatus;
@@ -76,7 +77,7 @@ public class TestConfig implements CommandLineRunner{
 	
 		/*Horário no padrão ISO8601: YYYY-MM-DDTHH:MM:SSZ. O Z após a data refere-se ao horário GMT*/
 		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), OrderStatus.PAID, u1);
-		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, u2);
+		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.PAID, u2);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, u1);
 		
 		/*Persistir os objetos*/
@@ -89,6 +90,13 @@ public class TestConfig implements CommandLineRunner{
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 		
 		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+		/*Para salvar um objeto dependente não se chama através do repository, mas se o objeto para que o
+		 * JPA se encarregue de criar o repositório*/
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
+
 		
 	}
 
