@@ -7,6 +7,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.rsrj.coursewebservices.entities.pk.OrderItemPK;
 
 
@@ -16,7 +17,7 @@ public class OrderItem implements Serializable{
 	 static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private OrderItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -34,6 +35,9 @@ public class OrderItem implements Serializable{
 	}
 	
 	/*Para o mundo exterior não há OrdemItemPK, apenas Order e Product*/
+	/*O getOrder é quem chama o pedido através do Jackson. Por isso se
+	 * usa o JsonIgnore para não provocar o loop*/
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}

@@ -2,7 +2,9 @@ package com.rsrj.coursewebservices.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -44,6 +47,11 @@ public class Order implements Serializable{
 	 * com id do User presente em Order*/
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+	/*Define o mapeamento com o ponto para identificar o elemento interior à classe
+	 * ou seja, encontra o atributo id e acessa o atributo order interno ao id.*/
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<OrderItem>();
 	
 	public Order() {
 		
@@ -92,6 +100,10 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 
+	public Set<OrderItem> getItems(){
+		return items;
+	}
+	
 	//Hash code and equals para o id
 	
 	@Override
