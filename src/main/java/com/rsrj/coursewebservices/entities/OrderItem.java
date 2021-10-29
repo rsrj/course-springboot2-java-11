@@ -71,6 +71,13 @@ public class OrderItem implements Serializable{
 		this.price = price;
 	}
 
+	
+	/*O get permite que o Java EE identifique o subtotal como atributo e imprima
+	 * no Json quando for feita a requisição*/
+	public Double getSubTotal() {	
+		return price*quantity;
+	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -87,8 +94,6 @@ public class OrderItem implements Serializable{
 		OrderItem other = (OrderItem) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
+
 	
 }

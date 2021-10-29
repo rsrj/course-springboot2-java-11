@@ -118,6 +118,14 @@ public class Order implements Serializable{
 		this.payment = payment;
 	}
 	
+	public Double getTotal() {
+		Double total = 0.0;
+		for(OrderItem x: items) {
+			total += x.getSubTotal();
+		}
+		return total;
+	}
+	
 	//Hash code and equals para o id
 	@Override
 	public int hashCode() {
