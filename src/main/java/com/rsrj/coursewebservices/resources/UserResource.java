@@ -3,9 +3,12 @@ package com.rsrj.coursewebservices.resources;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,5 +36,20 @@ public class UserResource {
 		return ResponseEntity.ok().body(userFound);
 	
 	}
+	
+	@PostMapping
+	public ResponseEntity<User> save(@RequestBody User obj){
+		
+		User user = service.insert(obj);
+//		Abordagem utilizada pelo curso
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+//				.buildAndExpand(obj.getId()).toUri();
+//		
+//		return ResponseEntity.created(uri).body(obj);
+		
+		//Abordagem devdojo
+		return new ResponseEntity<>(user,HttpStatus.CREATED);
+	}
+	
 	
 }
